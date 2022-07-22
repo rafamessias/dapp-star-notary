@@ -17,6 +17,7 @@ contract StarNotary is ERC721 {
     function createStar(string memory _name, uint256 _tokenId) public {
         Star memory newStar = Star(_name);
         tokenIdToStarInfo[_tokenId] = newStar;
+        approve(address(this), _tokenId);
         _mint(msg.sender, _tokenId);
     }
 
@@ -39,8 +40,6 @@ contract StarNotary is ERC721 {
         address ownerAddress = ownerOf(_tokenId);
 
         require(msg.value > starCost, "You need to have enough Ether");
-
-        approve(msg.sender, _tokenId);
 
         transferFrom(ownerAddress, msg.sender, _tokenId);
 

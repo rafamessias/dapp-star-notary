@@ -1,15 +1,17 @@
 import { EthProvider } from "./contexts/EthContext";
 import StarNotaryApp from "./components/StarNotaryApp";
-import "./App.css";
+import ThemeProviderWrapper from "./theme/ThemeProvider";
+import Header from "./components/Header";
 
 function App() {
   return (
     <EthProvider>
-      <div id="App">
-        <div className="container">
+      <ThemeProviderWrapper>
+        <div id="App">
+          <Header />
           <StarNotaryApp />
         </div>
-      </div>
+      </ThemeProviderWrapper>
     </EthProvider>
   );
 }

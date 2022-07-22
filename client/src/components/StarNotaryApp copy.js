@@ -62,7 +62,9 @@ export default function Index() {
           flexWrap: "wrap",
         }}>
         <Typography variant="h2">Star Notary App</Typography>
-        <Button variant="contained">Connect Wallet</Button>
+        <Button variant="contained" sx={{ display: "none" }}>
+          Connect Wallet
+        </Button>
       </Box>
 
       <Paper elevation={2} sx={{ py: 2, px: 4, mt: 4 }}>

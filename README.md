@@ -1,6 +1,6 @@
 # Daap - Star Notary
 
-This Daap is part of my working build a solid Blockchain development skill.
+This Daap is part of my work building a solid Blockchain development skill.
 
 ## How it works
 

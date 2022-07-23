@@ -60,8 +60,12 @@ export default function InfoStar() {
         .starsForSale(starIdEnc.toString())
         .call();
 
+      console.log(web3.utils.fromWei(transaction, "ether"));
+
       setStarsForSaleResult(
-        transaction !== "0" ? `Star Price: ${transaction}` : "Star not for Sale"
+        transaction !== "0"
+          ? `Star Price: ${web3.utils.fromWei(transaction, "ether")} ETH`
+          : "Star not for Sale"
       );
     } catch (error) {
       setStarsForSaleError(error.message);

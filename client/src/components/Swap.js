@@ -14,11 +14,11 @@ import ReturnMsg from "./utils/ReturnMsg";
 export default function Swap() {
   const [starPrice, setStarPrice] = useState(0);
   const [starId, setStarId] = useState(0);
-  const [tokenIdToStarInfoResult, setTokenIdToStarInfoResult] = useState("");
-  const [tokenIdToStarInfoError, setTokenIdToStarInfoError] = useState("");
+  const [putStarUpForSaleResult, setPutStarUpForSaleResult] = useState("");
+  const [putStarUpForSaleError, setPutStarUpForSaleError] = useState("");
 
-  const [starsForSaleResult, setStarsForSaleResult] = useState("");
-  const [starsForSaleError, setStarsForSaleError] = useState("");
+  const [buyStarResult, setBuyStarResult] = useState("");
+  const [buyStarError, setBuyStarError] = useState("");
 
   //get contract and accounts to perform the transactions
   const {
@@ -42,13 +42,13 @@ export default function Swap() {
         .putStarUpForSale(starIdEnc.toString(), starPriceEnc.toString())
         .send({ from: account });
 
-      setTokenIdToStarInfoResult(transaction.transactionHash);
+      setPutStarUpForSaleResult(transaction.transactionHash);
     } catch (error) {
-      setTokenIdToStarInfoError(error.message);
+      setPutStarUpForSaleError(error.message);
     }
   };
 
-  const starsForSale = async (_starId, _starPrice) => {
+  const buyStar = async (_starId, _starPrice) => {
     //if wallet not connected, go and request the connection
     if (!contract) {
       connectWallet();
@@ -59,14 +59,12 @@ export default function Swap() {
       const starIdEnc = web3.utils.toBN(_starId);
       const starPriceEnc = web3.utils.toWei(_starPrice, "ether");
       const transaction = await contract.methods
-        .starsForSale(starIdEnc.toString())
+        .buyStar(starIdEnc.toString())
         .send({ from: account, value: starPriceEnc.toString() });
 
-      setStarsForSaleResult(
-        transaction !== "0" ? `Star Price: ${transaction}` : "Star not for Sale"
-      );
+      setBuyStarResult(transaction.transactionHash);
     } catch (error) {
-      setStarsForSaleError(error.message);
+      setBuyStarError(error.message);
     }
   };
 
@@ -105,8 +103,8 @@ export default function Swap() {
           </Grid>
           <Grid item sx={{ mt: 2, minHeight: "45px" }}>
             <ReturnMsg
-              trxError={tokenIdToStarInfoError}
-              trxResult={tokenIdToStarInfoResult}
+              trxError={putStarUpForSaleError}
+              trxResult={putStarUpForSaleResult}
               funcType="send"
             />
           </Grid>
@@ -141,14 +139,14 @@ export default function Swap() {
           <Grid item xs={12}>
             <Button
               variant="contained"
-              onClick={() => starsForSale(starId, starPrice)}>
+              onClick={() => buyStar(starId, starPrice)}>
               Buy Now!
             </Button>
           </Grid>
           <Grid item sx={{ mt: 2, minHeight: "45px" }}>
             <ReturnMsg
-              trxError={starsForSaleError}
-              trxResult={starsForSaleResult}
+              trxError={buyStarError}
+              trxResult={buyStarResult}
               funcType="send"
             />
           </Grid>

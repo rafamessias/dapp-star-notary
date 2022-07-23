@@ -6,6 +6,7 @@ import { reducer, actions, initialState } from "./state";
 function EthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  //create web3 objects to be used across the App
   const init = useCallback(async (artifact) => {
     if (artifact) {
       const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
@@ -26,28 +27,35 @@ function EthProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    const tryInit = async () => {
-      try {
-        const artifact = require("../../contracts/StarNotary.json");
-        init(artifact);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    tryInit();
+  const connectWallet = useCallback(() => {
+    try {
+      const artifact = require("../../contracts/StarNotary.json");
+      init(artifact);
+    } catch (error) {
+      console.error(error);
+    }
   }, [init]);
 
+  //if wallet connected, init the state
   useEffect(() => {
-    const events = ["chainChanged", "accountsChanged"];
-    const handleChange = () => {
-      init(state.artifact);
+    if (window.ethereum.isConnected()) connectWallet();
+  }, [connectWallet]);
+
+  //handle events when metamask changes
+  useEffect(() => {
+    const events = ["chainChanged", "accountsChanged", "disconnect"];
+    const handleChange = (e) => {
+      dispatch({
+        type: actions.init,
+        data: initialState,
+      });
     };
 
-    events.forEach((e) => window.ethereum.on(e, handleChange));
+    events.forEach((e) => window.ethereum.on(e, () => handleChange(e)));
     return () => {
-      events.forEach((e) => window.ethereum.removeListener(e, handleChange));
+      events.forEach((e) =>
+        window.ethereum.removeListener(e, () => handleChange(e))
+      );
     };
   }, [init, state.artifact]);
 
@@ -56,6 +64,7 @@ function EthProvider({ children }) {
       value={{
         state,
         dispatch,
+        connectWallet,
       }}>
       {children}
     </EthContext.Provider>

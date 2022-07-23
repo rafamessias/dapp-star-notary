@@ -834,9 +834,8 @@ export const DefaultTheme = createTheme({
         indicator: {
           height: 38,
           minHeight: 38,
-          borderRadius: 6,
-          border: "1px solid " + colors.primary.dark,
-          boxShadow: "0px 2px 10px " + colors.primary.light,
+          borderRadius: 20,
+          backgroundColor: colors.primary.light,
         },
         scrollableX: {
           overflow: "visible !important",
@@ -861,6 +860,7 @@ export const DefaultTheme = createTheme({
           },
           "&.Mui-selected, &.Mui-selected:hover": {
             color: colors.alpha.trueWhite[100],
+            backgroundColor: "transparent",
             zIndex: 5,
           },
           "&:hover": {

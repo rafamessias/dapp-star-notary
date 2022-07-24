@@ -51,7 +51,6 @@ export default function Index() {
               <Tab label="Register" {...a11yProps(0)} />
               <Tab label="Infos" {...a11yProps(1)} />
               <Tab label="Swap" {...a11yProps(2)} />
-              <Tab label="Logs" {...a11yProps(3)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>

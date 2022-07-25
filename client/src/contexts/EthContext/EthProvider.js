@@ -38,7 +38,7 @@ function EthProvider({ children }) {
 
   //if wallet connected, init the state
   useEffect(() => {
-    if (window !== undefined) {
+    if (window?.ethereum !== undefined) {
       if (window.ethereum.isConnected()) connectWallet();
     }
   }, [connectWallet]);

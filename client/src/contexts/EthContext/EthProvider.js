@@ -53,11 +53,14 @@ function EthProvider({ children }) {
       });
     };
 
-    events.forEach((e) => window.ethereum.on(e, () => handleChange(e)));
+    if (window?.ethereum !== undefined)
+      events.forEach((e) => window.ethereum.on(e, () => handleChange(e)));
     return () => {
-      events.forEach((e) =>
-        window.ethereum.removeListener(e, () => handleChange(e))
-      );
+      if (window?.ethereum !== undefined) {
+        events.forEach((e) =>
+          window.ethereum.removeListener(e, () => handleChange(e))
+        );
+      }
     };
   }, [init, state.artifact]);
 

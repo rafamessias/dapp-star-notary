@@ -38,7 +38,9 @@ function EthProvider({ children }) {
 
   //if wallet connected, init the state
   useEffect(() => {
-    if (window?.ethereum.isConnected()) connectWallet();
+    if (window !== undefined) {
+      if (window.ethereum.isConnected()) connectWallet();
+    }
   }, [connectWallet]);
 
   //handle events when metamask changes

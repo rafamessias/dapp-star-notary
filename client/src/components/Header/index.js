@@ -18,7 +18,9 @@ export default function Header() {
   }, [accounts]);
 
   useEffect(() => {
-    if (window?.ethereum.isConnected()) getAccounts();
+    if (window !== undefined) {
+      if (window.ethereum.isConnected()) getAccounts();
+    }
   }, [accounts, getAccounts]);
 
   return (
